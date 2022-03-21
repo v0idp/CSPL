@@ -24,9 +24,8 @@ namespace CSPL
             audioData = wholeFile.ToArray();
 
             int lengthSamples = (int)fReader.Length / (format.BitsPerSample / 8);
-            string name = Path.GetFileNameWithoutExtension(path);
+            var name = Path.GetFileNameWithoutExtension(path);
             var audioClip = AudioClip.Create(name, lengthSamples / format.Channels, format.Channels, format.SampleRate, false);
-
             audioClip.SetData(audioData, format.Channels);
             audioClip.name = name;
 

@@ -20,6 +20,5 @@ namespace CSPL
             Logger.LogInfo($"Plugin {CSPLPlugin.modGUID} is loaded!");
             harmony.PatchAll();
         }
-        
     }
 }
