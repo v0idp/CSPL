@@ -21,6 +21,8 @@ namespace CSPL.Patches
                 for (var i = 0; i < files.Length; i++)
                 {
                     var patch = UnityEngine.JsonUtility.FromJson<HelmPatchFormat>(File.ReadAllText(files[i].FullName));
+                    patch.patch_name = Path.GetFileNameWithoutExtension(files[i].Name);
+                    patch.folder_name = "CustomPatches";
                     __instance.AddPatch(patch);
                     CSPLPlugin.Log.LogInfo($"Added custom patch {patch.patch_name}");
                 }
