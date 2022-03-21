@@ -81,9 +81,5 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Patches\SynthDataControllerPatch.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
-    <None Include="README.md" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

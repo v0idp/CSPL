@@ -9,10 +9,11 @@ This mod will prevent you from uploading your sessions to the community. if you 
 - .NET Framework 4.8
 
 ## How to add custom helm patches
-- copy your .helm files into the ``import/patches`` folder  (IMPORTANT: must be in helm format!)
+- copy your .helm files into the ``<GAME_DIRECTORY>/import/patches`` folder  (IMPORTANT: must be in helm format!)
 
 ## How to add custom samples
-- copy your .wav sample files into the ``import/samples/<GROUP>`` folder  (``<GROUP>`` being the groupname you want the sample to show in, for example ``Snares``)
+- copy your .wav sample files into the ``<GAME_DIRECTORY>/import/samples/<GROUPNAME>`` folder
+- (<GROUPNAMES>: ``Bass Drums``, ``Car Doors``, ``Crashes``, ``Effects``, ``Hi-hats``, ``Rides``, ``Snares`` and ``Toms``)
 
 ## How to use
 - just start the game
