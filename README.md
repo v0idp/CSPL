@@ -22,7 +22,7 @@ This mod will prevent you from uploading your sessions to the community. if you 
 - enjoy!
 
 ## Contributing
-1. Fork it (<https://github.com/BitCrackers/CSPL/fork>)
+1. Fork it (<https://github.com/v0idp/CSPL/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
