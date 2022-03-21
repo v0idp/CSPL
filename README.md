@@ -13,7 +13,7 @@ This mod will prevent you from uploading your sessions to the community. if you 
 
 ## How to add custom samples
 - copy your .wav sample files into the ``<GAME_DIRECTORY>/import/samples/<GROUPNAME>`` folder
-- (<GROUPNAMES>: ``Bass Drums``, ``Car Doors``, ``Crashes``, ``Effects``, ``Hi-hats``, ``Rides``, ``Snares`` and ``Toms``)
+- (``GROUPNAMES: ``Bass Drums``, ``Car Doors``, ``Crashes``, ``Effects``, ``Hi-hats``, ``Rides``, ``Snares`` and ``Toms``)
 
 ## How to use
 - just start the game
