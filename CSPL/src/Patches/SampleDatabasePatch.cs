@@ -42,47 +42,56 @@ namespace CSPL.Patches
             LoadCustomSamples();
         }
 
+        private static void ImportAudioFilesFromDirectory(string directory, SearchOption searchOption)
+        {
+            var dirInfo = new DirectoryInfo(directory);
+            var dirName = dirInfo.Name;
+            var dirPath = dirInfo.FullName;
+
+            CSPLPlugin.Log.LogDebug($"({dirName}) Checking path: {dirPath}");
+
+            var groupId = sampleGroups["Effects"];
+            if (sampleGroups.ContainsKey(dirName))
+            {
+                groupId = sampleGroups[dirName];
+            }
+
+            var index = groupId + 100;
+            var files = dirInfo.GetFiles("*.wav", searchOption);
+
+            foreach (FileInfo f in files)
+            {
+                try
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(f.FullName);
+                    var audioClip = AudioImport.Import(f.FullName);
+                    var sampleData = ScriptableObject.CreateInstance<SampleData>();
+                    sampleData._id = index++;
+                    sampleData.name = fileName;
+                    sampleData._displayName = fileName;
+                    sampleData._audioClip = audioClip;
+                    samples[groupId].Add(sampleData);
+
+                    CSPLPlugin.Log.LogInfo($"Imported {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key} with id {index}");
+
+                    index += 1;
+                }
+                catch (Exception ex)
+                {
+                    CSPLPlugin.Log.LogError($"Failed to import {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key}");
+                    CSPLPlugin.Log.LogError($"Message: {ex.Message}\nStacktrace: {ex.StackTrace}");
+                }
+            }
+        }
+
         private static void LoadCustomSamples()
         {
             CSPLPlugin.Log.LogInfo("Loading custom samples...");
-
             var customSamplesPath = Directory.GetCurrentDirectory() + "\\import\\samples\\";
-            var directories = Directory.GetDirectories(customSamplesPath);
-            foreach (string d in directories)
+            ImportAudioFilesFromDirectory(customSamplesPath, SearchOption.TopDirectoryOnly);
+            foreach (string d in Directory.GetDirectories(customSamplesPath))
             {
-                var dirInfo = new DirectoryInfo(d);
-                var dirName = dirInfo.Name;
-                var dirPath = dirInfo.FullName;
-
-                CSPLPlugin.Log.LogDebug($"({dirName}) Checking path: {dirPath}");
-
-                var groupId = sampleGroups[dirName];
-                var index = groupId + 100;
-                var files = dirInfo.GetFiles("*.wav", SearchOption.AllDirectories);
-
-                foreach (FileInfo f in files)
-                {
-                    try
-                    {
-                        var fileName = Path.GetFileNameWithoutExtension(f.FullName);
-                        var audioClip = AudioImport.Import(f.FullName);
-                        var sampleData = ScriptableObject.CreateInstance<SampleData>();
-                        sampleData._id = index++;
-                        sampleData.name = fileName;
-                        sampleData._displayName = fileName;
-                        sampleData._audioClip = audioClip;
-                        samples[groupId].Add(sampleData);
-
-                        CSPLPlugin.Log.LogInfo($"Imported {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key} with id {index}");
-
-                        index += 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        CSPLPlugin.Log.LogError($"Failed to import {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key}");
-                        CSPLPlugin.Log.LogError($"Message: {ex.Message}\nStacktrace: {ex.StackTrace}");
-                    }
-                }
+                ImportAudioFilesFromDirectory(d, SearchOption.AllDirectories);
             }
         }
 
