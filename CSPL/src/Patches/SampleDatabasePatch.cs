@@ -57,7 +57,7 @@ namespace CSPL.Patches
 
                 var groupId = sampleGroups[dirName];
                 var index = groupId + 100;
-                var files = dirInfo.GetFiles("*.wav");
+                var files = dirInfo.GetFiles("*.wav", SearchOption.AllDirectories);
 
                 foreach (FileInfo f in files)
                 {
