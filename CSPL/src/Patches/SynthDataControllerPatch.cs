@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using HarmonyLib;
 using AudioHelm;
 using VROSC;
@@ -19,11 +20,19 @@ namespace CSPL.Patches
             {
                 for (var i = 0; i < files.Length; i++)
                 {
-                    var patch = UnityEngine.JsonUtility.FromJson<HelmPatchFormat>(File.ReadAllText(files[i].FullName));
-                    patch.patch_name = Path.GetFileNameWithoutExtension(files[i].Name);
-                    patch.folder_name = "CustomPatches";
-                    __instance.AddPatch(patch);
-                    CSPLPlugin.Log.LogInfo($"Added custom patch {patch.patch_name}");
+                    try
+                    {
+                        var patch = UnityEngine.JsonUtility.FromJson<HelmPatchFormat>(File.ReadAllText(files[i].FullName));
+                        patch.patch_name = Path.GetFileNameWithoutExtension(files[i].Name);
+                        patch.folder_name = "CustomPatches";
+                        __instance.AddPatch(patch);
+                        CSPLPlugin.Log.LogInfo($"Added custom patch {patch.patch_name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        CSPLPlugin.Log.LogError($"Failed to add patch {files[i].Name}");
+                        CSPLPlugin.Log.LogError($"Message: {ex.Message}\nStacktrace: {ex.StackTrace}");
+                    }
                 }
             }
             else

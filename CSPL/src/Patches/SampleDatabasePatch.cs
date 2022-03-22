@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -61,18 +62,26 @@ namespace CSPL.Patches
 
                 foreach (FileInfo f in files)
                 {
-                    var fileName = Path.GetFileNameWithoutExtension(f.FullName);
-                    var audioClip = AudioImport.Import(f.FullName);
-                    var sampleData = ScriptableObject.CreateInstance<SampleData>();
-                    sampleData._id = index++;
-                    sampleData.name = fileName;
-                    sampleData._displayName = fileName;
-                    sampleData._audioClip = audioClip;
-                    samples[groupId].Add(sampleData);
+                    try
+                    {
+                        var fileName = Path.GetFileNameWithoutExtension(f.FullName);
+                        var audioClip = AudioImport.Import(f.FullName);
+                        var sampleData = ScriptableObject.CreateInstance<SampleData>();
+                        sampleData._id = index++;
+                        sampleData.name = fileName;
+                        sampleData._displayName = fileName;
+                        sampleData._audioClip = audioClip;
+                        samples[groupId].Add(sampleData);
 
-                    CSPLPlugin.Log.LogInfo($"Imported {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key} with id {index}");
+                        CSPLPlugin.Log.LogInfo($"Imported {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key} with id {index}");
 
-                    index += 1;
+                        index += 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        CSPLPlugin.Log.LogError($"Failed to import {f.Name} into {sampleGroups.FirstOrDefault(x => x.Value == groupId).Key}");
+                        CSPLPlugin.Log.LogError($"Message: {ex.Message}\nStacktrace: {ex.StackTrace}");
+                    }
                 }
             }
         }
