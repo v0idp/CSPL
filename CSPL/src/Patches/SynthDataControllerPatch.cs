@@ -15,7 +15,7 @@ namespace CSPL.Patches
         {
             var directory = Directory.GetCurrentDirectory() + "\\import\\patches\\";
             var dirInfo = new DirectoryInfo(directory);
-            var files = dirInfo.GetFiles("*.helm");
+            var files = dirInfo.GetFiles("*.helm", SearchOption.AllDirectories);
             if (files.Length > 0)
             {
                 for (var i = 0; i < files.Length; i++)
